@@ -1,7 +1,5 @@
 ﻿
 // Setup the Library:
-using System.Runtime.InteropServices;
-
 Library library = new Library();
 
 // Add books:
@@ -26,6 +24,15 @@ library.AddNewBook(sarcasmGuide);
 library.AddNewBook(alienMemoirs);
 library.AddNewBook(timeTravel);
 
+Person joakim = new Person("Joakim Villo", 36, "gojhfdi");
+library.AddNewPerson(joakim);
+
+Person bob = new Person("Bob Marley", 76, "gogfdusagfduyjhfdi");
+library.AddNewPerson(bob);
+bob.PersonBorrowBook(cookWithGandalf);
+
+joakim.PersonBorrowBook(timeTravel);
+joakim.PersonBorrowBook(alienMemoirs);
 
 
 Console.WriteLine("Welcome to the library's book system");
@@ -47,9 +54,22 @@ while (runProgram)
 
         foreach (var book in avaliableBooks)
         {
-            Console.WriteLine("Title: " + book.Title + ". Author: " + book.Author + ". Published: " + book.FirstPublished);
+            Console.WriteLine($"Title: {book.Title}. Author: {book.Author}. Published: {book.FirstPublished}");
         }
 
+    }
+    else if (userInput == "info") {
+             Console.WriteLine("Here are the customers:");
+        List<Person> allPersons = library.ListAllPeople();
+        List<Book> borrowedBooks = joakim.ListBorrowedBooks();
+
+        foreach (var person in allPersons)
+        {
+            Console.WriteLine($"{person.Fullname} is {person.Age} years old. Id: {person.CustomerId}.");
+            foreach (var book in borrowedBooks) {
+                Console.WriteLine($"{book.Title}");
+            }
+        }
     }
     else if (userInput == "lend")
     {
@@ -57,9 +77,9 @@ while (runProgram)
         Console.WriteLine("Which book would you like to lend?");
         string? wantedBookTitle = Console.ReadLine();
         Book? book = library.LendBook(wantedBookTitle);
-        if (wantedBookTitle == null)
+        if (book == null)
         {
-            continue;
+            Console.WriteLine("No book found: " + wantedBookTitle);
         }
         else
         {

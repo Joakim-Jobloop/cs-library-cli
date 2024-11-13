@@ -1,22 +1,42 @@
-// class Person
-// {
-// // Data fields
-// private List<Book> books;
+class Person
+{
+    // Data fields
+    private List<Book> books;
 
-// // Configuration
-// public BorrowedBooks()
-// {
-//     books = new List<Book>();
-// }
+    public string Fullname;
+    public int Age;
+    public string CustomerId;
 
-// public ReturnedBooks()
-// {
-//     books = new List<Book>();
-// }
+    // Configuration
+    public Person(string fullname, int age, string customerId) 
+    {
+        Fullname = fullname;
+        Age = age;
+        CustomerId = customerId;
+        books = new List<Book>();
+    }
 
-// // Methods, things we can do with the object
-// public void AddNewBook(Book newBook)
-// {
-// books.Add(newBook);
-// }
-// }
+    // Methods
+    public void PersonBorrowBook(Book borrowedBook)
+    {
+        books.Add(borrowedBook);
+    }
+    
+    public List<Book> ListBorrowedBooks()
+    {
+        return books;
+    }
+    public Book? PersonBorrowedBooks(string title)
+    {
+        Book? book = books.Find((book)=> {
+        return book.Title.Any() ? true : false;
+        });
+        return book;
+    }
+
+    public void PersonReturnBook(Book returnedBook)
+    {
+        books.Remove(returnedBook);
+
+    }
+}
